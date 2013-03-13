@@ -1,0 +1,27 @@
+{
+  "name": "mustache-express",
+  "description": "Use mustache, including partials, in Express 3",
+  "author": "Bryan Burgers <bryan.burgers@gmail.com>",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/bryanburgers/node-mustache-express.git"
+  },
+  "dependencies": {
+    "async": "~0.1",
+    "mustache": "~0.7"
+  },
+  "devDependencies": {
+    "grunt": "~0.4",
+    "grunt-contrib-jshint": "~0.1.1",
+    "mocha": "~1.7",
+    "should": "~1.2"
+  },
+  "engines": {
+    "node": "~0.8",
+    "npm": "~1.2"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha"
+  }
+}

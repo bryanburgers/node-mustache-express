@@ -2,7 +2,7 @@
   "name": "mustache-express",
   "description": "Use mustache, including partials, in Express 3",
   "author": "Bryan Burgers <bryan.burgers@gmail.com>",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "http://github.com/bryanburgers/node-mustache-express.git"

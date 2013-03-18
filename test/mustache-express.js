@@ -31,6 +31,24 @@ describe('mustacheExpress', function() {
 		});
 	});
 
+	it('should render a template with a partial without parameters', function(done) {
+		var renderer = mustacheExpress();
+		renderer('test/test02/index.mustache',
+		{
+			name: "World",
+			settings: {
+				views: 'test/test02',
+				"view engine": 'mustache'
+			}
+		}, function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+			result.should.eql("Hey, World");
+
+			done();
+		});
+	});
+
 	it('should render a template with a partial, where the partial has templatable stuff', function(done) {
 		var renderer = mustacheExpress('test/test03', '.mustache');
 		renderer('test/test03/index.mustache',

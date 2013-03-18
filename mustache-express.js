@@ -139,7 +139,9 @@ function create(directory, extension) {
 		}
 	});
 	var rendererWrapper = function(templatePath, options, callback) {
-		render(templatePath, directory, extension, options, rendererWrapper.cache, callback);
+		var viewDirectory = directory || options.settings.views;
+		var viewExtension = extension || '.' + options.settings['view engine'];
+		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, callback);
 	};
 	rendererWrapper.cache = cache;
 	return rendererWrapper;

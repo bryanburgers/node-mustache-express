@@ -7,6 +7,7 @@
     "type": "git",
     "url": "http://github.com/bryanburgers/node-mustache-express.git"
   },
+  "main": "mustache-express.js",
   "dependencies": {
     "async": "~0.1",
     "lru-cache": "~2.2",

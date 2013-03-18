@@ -1,5 +1,5 @@
 var fs = require('fs');
-var mustacheExpress = require('../index.js');
+var mustacheExpress = require('../mustache-express.js');
 var should = require('should');
 
 describe('mustacheExpress', function() {

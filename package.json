@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "async": "~0.1",
+    "lru-cache": "~2.2",
     "mustache": "~0.7"
   },
   "devDependencies": {

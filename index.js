@@ -3,6 +3,7 @@
 var async = require('async');
 var findPartials = require('./find-partials');
 var fs = require('fs');
+var lruCache = require('lru-cache');
 var mustache = require('mustache');
 var path = require('path');
 
@@ -18,19 +19,29 @@ function loadFile(fullFilePath, callback) {
 }
 
 // Load a file, find it's partials, and return the relevant data.
-function handleFile(name, file, callback) {
-	loadFile(file, function(err, fileData) {
-		if (err) {
-			return callback(err);
-		}
+function handleFile(name, file, cache, callback) {
+	var cachedData = cache && cache.get(file);
+	if (!cachedData) {
+		loadFile(file, function(err, fileData) {
+			if (err) {
+				return callback(err);
+			}
 
-		var partials = findPartials(fileData);
-		return callback(null, {
-			name: name,
-			data: fileData,
-			partials: partials
+			var partials = findPartials(fileData);
+			var data = {
+				name: name,
+				data: fileData,
+				partials: partials
+			};
+			if (cache) {
+				cache.set(file, data);
+			}
+			return callback(null, data);
 		});
-	});
+	}
+	else {
+		return callback(null, cachedData);
+	}
 }
 
 // Using the return data from all of the files, consolidate the partials into
@@ -53,7 +64,7 @@ function findUnloadedPartials(partialNames, loadedPartials) {
 }
 
 // Load all of the partials recursively
-function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension, partials, callback) {
+function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension, cache, partials, callback) {
 	if (!partials) {
 		partials = {};
 	}
@@ -67,7 +78,7 @@ function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension,
 
 	async.map(unparsedPartials, function(partial, next) {
 		var fullFilePath = path.resolve(partialsDirectory, partial + partialsExtension);
-		return handleFile(partial, fullFilePath, next);
+		return handleFile(partial, fullFilePath, cache, next);
 	}, function(err, data) {
 		if (err) {
 			return callback(err);
@@ -85,18 +96,18 @@ function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension,
 		var partialsToLoad = findUnloadedPartials(consolidatedPartials, partials);
 
 		// Recursive call.
-		return loadAllPartials(partialsToLoad, partialsDirectory, partialsExtension, partials, callback);
+		return loadAllPartials(partialsToLoad, partialsDirectory, partialsExtension, cache, partials, callback);
 	});
 }
 
 // Load the root template, and all of the partials that go with it
-function loadTemplateAndPartials(templateFile, partialsDirectory, partialsExtension, callback) {
-	handleFile(null, templateFile, function(err, partialData) {
+function loadTemplateAndPartials(templateFile, partialsDirectory, partialsExtension, cache, callback) {
+	handleFile(null, templateFile, cache, function(err, partialData) {
 		if (err) {
 			return callback(err);
 		}
 
-		return loadAllPartials(partialData.partials, partialsDirectory, partialsExtension, null, function(err, partials) {
+		return loadAllPartials(partialData.partials, partialsDirectory, partialsExtension, cache, null, function(err, partials) {
 			if (err) {
 				return callback(err);
 			}
@@ -106,9 +117,9 @@ function loadTemplateAndPartials(templateFile, partialsDirectory, partialsExtens
 	});
 }
 
-function render(templatePath, viewDirectory, extension, options, callback) {
+function render(templatePath, viewDirectory, extension, options, cache, callback) {
 
-	loadTemplateAndPartials(templatePath, viewDirectory, extension, function(err, template, partials) {
+	loadTemplateAndPartials(templatePath, viewDirectory, extension, cache, function(err, template, partials) {
 		if (err) {
 			return callback(err);
 		}
@@ -121,9 +132,17 @@ function render(templatePath, viewDirectory, extension, options, callback) {
 // Create a renderer.
 // This is the entry point of the module.
 function create(directory, extension) {
-	return function(templatePath, options, callback) {
-		render(templatePath, directory, extension, options, callback);
+	var cache = lruCache({
+		max: 50,
+		length: function(item) {
+			return item.data.length;
+		}
+	});
+	var rendererWrapper = function(templatePath, options, callback) {
+		render(templatePath, directory, extension, options, rendererWrapper.cache, callback);
 	};
+	rendererWrapper.cache = cache;
+	return rendererWrapper;
 }
 
 module.exports = create;

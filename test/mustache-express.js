@@ -1,3 +1,4 @@
+var fs = require('fs');
 var mustacheExpress = require('../index.js');
 var should = require('should');
 
@@ -85,6 +86,69 @@ describe('mustacheExpress', function() {
 			should.not.exist(err);
 			should.exist(result);
 			result.should.eql("Hey, World");
+
+			done();
+		});
+	});
+
+	it('should cache the partials that it loads', function(done) {
+		var renderer = mustacheExpress('test/test07', '.mustache');
+
+		fs.writeFileSync('test/test07/p1.mustache', 'Version 1', 'utf-8');
+
+		renderer('test/test07/index.mustache', {}, function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+
+			fs.writeFileSync('test/test07/p1.mustache', 'Version 2', 'utf-8');
+
+			renderer('test/test07/index.mustache', {}, function(err, result) {
+				should.not.exist(err);
+				should.exist(result);
+
+				result.should.eql("Version 1");
+				done();
+			});
+		});
+	});
+
+	it('should allow access to the partial cache', function(done) {
+		var renderer = mustacheExpress('test/test07', '.mustache');
+		renderer.should.have.property('cache');
+
+		fs.writeFileSync('test/test07/p1.mustache', 'Version 1', 'utf-8');
+
+		renderer('test/test07/index.mustache', {}, function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+
+			// Clear the partial cache!
+			renderer.cache.reset();
+
+			fs.writeFileSync('test/test07/p1.mustache', 'Version 2', 'utf-8');
+
+			renderer('test/test07/index.mustache', {}, function(err, result) {
+				should.not.exist(err);
+				should.exist(result);
+
+				result.should.eql("Version 2");
+				done();
+			});
+		});
+	});
+
+	it('should allow correctly handle a removed cache', function(done) {
+		var renderer = mustacheExpress('test/test01', '.mustache');
+		renderer.should.have.property('cache');
+		delete renderer.cache;
+
+		renderer('test/test01/index.mustache',
+		{
+			value: "World"
+		}, function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+			result.should.eql("World");
 
 			done();
 		});

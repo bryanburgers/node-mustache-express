@@ -133,7 +133,7 @@ function render(templatePath, viewDirectory, extension, options, cache, callback
 // This is the entry point of the module.
 function create(directory, extension) {
 	var cache = lruCache({
-		max: 50,
+		max: 50000,
 		length: function(item) {
 			return item.data.length;
 		}

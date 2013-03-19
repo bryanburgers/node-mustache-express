@@ -19,6 +19,9 @@
     "mocha": "~1.7",
     "should": "~1.2"
   },
+  "peerDependencies": {
+    "express": "~3.0"
+  },
   "engines": {
     "node": "~0.8",
     "npm": "~1.2"

@@ -8,6 +8,10 @@
     "url": "http://github.com/bryanburgers/node-mustache-express.git"
   },
   "main": "mustache-express.js",
+  "contributors": [{
+	 "name": "Andrea Mirone",
+	 "email": "andreamirone@gmail.com"
+  }],
   "dependencies": {
     "async": "~0.1",
     "lru-cache": "~2.2",
@@ -20,7 +24,10 @@
     "should": "~1.2"
   },
   "peerDependencies": {
-    "express": "3.x"
+    "express": "~3"
+  },
+  "engines": {
+	 "node": ">= 0.8.0"
   },
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha"

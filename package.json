@@ -2,16 +2,18 @@
   "name": "mustache-express",
   "description": "Use mustache, including partials, in Express 3",
   "author": "Bryan Burgers <bryan.burgers@gmail.com>",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "repository": {
     "type": "git",
     "url": "http://github.com/bryanburgers/node-mustache-express.git"
   },
   "main": "mustache-express.js",
-  "contributors": [{
-	 "name": "Andrea Mirone",
-	 "email": "andreamirone@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Andrea Mirone",
+      "email": "andreamirone@gmail.com"
+    }
+  ],
   "dependencies": {
     "async": "~0.1",
     "lru-cache": "~2.2",
@@ -27,7 +29,7 @@
     "express": "~3"
   },
   "engines": {
-	 "node": ">= 0.8.0"
+    "node": ">= 0.8.0"
   },
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha"

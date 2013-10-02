@@ -17,6 +17,11 @@ describe('findPartials', function() {
 		var results = findPartials("{{> p1}} {{> p2}}");
 		sort(results).should.eql(["p1", "p2"]);
 	});
+	
+	it('should find partials inside a section', function() {
+		var results = findPartials("{{#test}}{{> p1}}{{/test}}");
+		sort(results).should.eql(["p1"]);
+	});
 
 	it('should only return a partial once', function() {
 		var results = findPartials("{{> p1}} {{> p1}}");

@@ -2,7 +2,7 @@
   "name": "mustache-express",
   "description": "Use mustache, including partials, in Express 3",
   "author": "Bryan Burgers <bryan.burgers@gmail.com>",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "repository": {
     "type": "git",
     "url": "http://github.com/bryanburgers/node-mustache-express.git"
@@ -12,6 +12,10 @@
     {
       "name": "Andrea Mirone",
       "email": "andreamirone@gmail.com"
+    },
+    {
+      "name": "Pasi Rajala",
+      "email": "p@prr.fi"
     }
   ],
   "dependencies": {

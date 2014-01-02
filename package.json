@@ -27,9 +27,9 @@
     }
   ],
   "dependencies": {
-    "async": "~0.1",
-    "lru-cache": "~2.2",
-    "mustache": "~0.7"
+    "async": "~0.2.10",
+    "lru-cache": "~2.5.0",
+    "mustache": "~0.8.1"
   },
   "devDependencies": {
     "grunt": "~0.4",

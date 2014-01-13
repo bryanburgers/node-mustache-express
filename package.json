@@ -29,7 +29,8 @@
   },
   "devDependencies": {
     "grunt": "~0.4",
-    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-jshint": "~0.8",
+    "jshint": "~2.4",
     "mocha": "~1.7",
     "should": "~1.2"
   },
@@ -40,6 +41,6 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha"
+    "test": "node node_modules/mocha/bin/mocha && node node_modules/jshint/bin/jshint"
   }
 }

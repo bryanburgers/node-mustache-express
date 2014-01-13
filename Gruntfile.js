@@ -7,19 +7,9 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		jshint: {
-			all: ['index.js', 'findPartials.js'],
+			all: ['index.js', 'findPartials.js', 'test/*.js'],
 			options: {
-				node: true,
-				curly: true,
-				eqeqeq: true,
-				immed: true,
-				latedef: true,
-				newcap: true,
-				noarg: true,
-				sub: true,
-				undef: true,
-				boss: true,
-				eqnull: true
+				jshintrc: ".jshintrc"
 			}
 		}
 	});

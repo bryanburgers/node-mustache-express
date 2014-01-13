@@ -1,3 +1,5 @@
+"use strict";
+
 var fs = require('fs');
 var mustacheExpress = require('../mustache-express.js');
 var should = require('should');

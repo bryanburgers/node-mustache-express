@@ -1,3 +1,5 @@
+"use strict";
+
 var findPartials = require('../find-partials');
 var should = require('should');
 
@@ -17,7 +19,7 @@ describe('findPartials', function() {
 		var results = findPartials("{{> p1}} {{> p2}}");
 		sort(results).should.eql(["p1", "p2"]);
 	});
-	
+
 	it('should find partials inside a section', function() {
 		var results = findPartials("{{#test}}{{> p1}}{{/test}}");
 		sort(results).should.eql(["p1"]);

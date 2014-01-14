@@ -171,4 +171,38 @@ describe('mustacheExpress', function() {
 			done();
 		});
 	});
+
+	it('should render a partial from the directory set in constructor', function(done) {
+		var renderer = mustacheExpress('test/test02', '.mustache');
+		renderer('test/test03/index.mustache',
+		{
+			name: 'someone',
+			settings: {
+				views: 'test/test03'
+			}
+		}, function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+			result.should.eql('Hey, someone');
+
+			done();
+		});
+	});
+
+	it('should use the partial extension set in constructor', function(done) {
+		var renderer = mustacheExpress('test/test09', '.m');
+		renderer('test/test09/index.mustache',
+		{
+			settings: {
+				'view engine': 'mustache'
+			}
+		}, function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+			result.should.eql('Partial: partial.m');
+
+			done();
+		});
+	});
 });
+

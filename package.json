@@ -6,7 +6,7 @@
     "email": "bryan@burgers.io",
     "url": "http://www.burgers.io"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "http://github.com/bryanburgers/node-mustache-express.git"
@@ -22,8 +22,8 @@
       "email": "p@prr.fi"
     },
     {
-    	"name": "Moandji Ezana",
-    	"email": "mwanji@gmail.com"
+      "name": "Moandji Ezana",
+      "email": "mwanji@gmail.com"
     }
   ],
   "dependencies": {

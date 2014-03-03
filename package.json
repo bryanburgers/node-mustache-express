@@ -45,6 +45,6 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha && node node_modules/jshint/bin/jshint"
+    "test": "mocha && jshint"
   }
 }

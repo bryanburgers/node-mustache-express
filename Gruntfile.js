@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		jshint: {
-			all: ['index.js', 'findPartials.js', 'test/*.js'],
+			all: ['mustache-express.js', 'find-partials.js', 'test/*.js'],
 			options: {
 				jshintrc: ".jshintrc"
 			}

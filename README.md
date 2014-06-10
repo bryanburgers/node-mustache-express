@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bryanburgers/node-mustache-express.png)](https://travis-ci.org/bryanburgers/node-mustache-express)
 
-Mustache Express lets you use Mustache and Express 3 together, including auto-loading partials.
+Mustache Express lets you use Mustache and Express (at least version 3) together, including auto-loading partials.
 
 ## Usage
 

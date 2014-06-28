@@ -20,7 +20,10 @@ function loadFile(fullFilePath, callback) {
 
 // Load a file, find it's partials, and return the relevant data.
 function handleFile(name, file, options, cache, callback) {
-	var cachedData = options.settings['view cache'] !== false && cache && cache.get(file);
+	var cachedData;
+	if(!options || !options.settings || options.settings['view cache'] !== false) {
+		cachedData = cache && cache.get(file);
+	}
 	if (!cachedData) {
 		loadFile(file, function(err, fileData) {
 			if (err) {

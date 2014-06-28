@@ -147,7 +147,7 @@ function create(directory, extension) {
 		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, function(err, data) {
 			
 			// If layout is defined, load it
-			if(options.settings.layout) {
+			if(options && options.settings && ptions.settings.layout) {
 				
 				// Load the layout & partials
 				var layoutPath = path.resolve(viewDirectory, options.settings.layout + viewExtension);

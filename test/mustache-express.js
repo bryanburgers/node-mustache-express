@@ -206,5 +206,69 @@ describe('mustacheExpress', function() {
 			done();
 		});
 	});
+
+	it('should not cache the partials that it loads if "view cache" is false', function(done) {
+		var renderer = mustacheExpress('test/test07', '.mustache');
+
+		fs.writeFileSync('test/test07/p1.mustache', 'Version 1', 'utf-8');
+
+		renderer('test/test07/index.mustache',
+		{
+			settings: {
+				'view cache': false
+			}
+		},
+		function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+
+			fs.writeFileSync('test/test07/p1.mustache', 'Version 2', 'utf-8');
+
+			renderer('test/test07/index.mustache',
+			{
+				settings: {
+					'view cache': false
+				}
+			}, function(err, result) {
+				should.not.exist(err);
+				should.exist(result);
+
+				result.should.eql("Version 2");
+				done();
+			});
+		});
+	});
+
+	it('should cache the partials that it loads if "view cache" is true', function(done) {
+		var renderer = mustacheExpress('test/test07', '.mustache');
+
+		fs.writeFileSync('test/test07/p1.mustache', 'Version 1', 'utf-8');
+
+		renderer('test/test07/index.mustache',
+		{
+			settings: {
+				'view cache': true
+			}
+		},
+		function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+
+			fs.writeFileSync('test/test07/p1.mustache', 'Version 2', 'utf-8');
+
+			renderer('test/test07/index.mustache',
+			{
+				settings: {
+					'view cache': true
+				}
+			}, function(err, result) {
+				should.not.exist(err);
+				should.exist(result);
+
+				result.should.eql("Version 1");
+				done();
+			});
+		});
+	});
 });
 

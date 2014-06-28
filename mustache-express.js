@@ -99,7 +99,7 @@ function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension,
 		var partialsToLoad = findUnloadedPartials(consolidatedPartials, partials);
 
 		// Recursive call.
-		return loadAllPartials(partialsToLoad, partialsDirectory, partialsExtension, cache, partials, callback);
+		return loadAllPartials(partialsToLoad, partialsDirectory, partialsExtension, options, cache, partials, callback);
 	});
 }
 

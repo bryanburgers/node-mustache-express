@@ -148,7 +148,7 @@ function create(directory, extension) {
 				
 				// Load the layout & partials
 				var layoutPath = path.resolve(viewDirectory, options.settings.layout + viewExtension);
-				loadTemplateAndPartials(layoutPath, viewDirectory, extension, options, cache, function(err, template, partials) {
+				loadTemplateAndPartials(layoutPath, viewDirectory, viewExtension, options, cache, function(err, template, partials) {
 					if(err) { return callback(err); }
 					
 					// Render the view into layout and run the callback

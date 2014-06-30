@@ -144,7 +144,30 @@ function create(directory, extension) {
 	var rendererWrapper = function(templatePath, options, callback) {
 		var viewDirectory = directory || options.settings.views;
 		var viewExtension = extension || '.' + options.settings['view engine'];
-		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, callback);
+		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, function(err, data) {
+			if (err) {
+				return callback(err);
+			}
+
+			// If layout is defined, load it
+			if (options && options.settings && options.settings.layout) {
+
+				// Load the layout & partials
+				var layoutPath = path.resolve(viewDirectory, options.settings.layout + viewExtension);
+				loadTemplateAndPartials(layoutPath, viewDirectory, viewExtension, options, rendererWrapper.cache, function(err, template, partials) {
+					if (err) {
+						return callback(err);
+					}
+
+					// Render the view into layout and run the callback
+					var fulldata = mustache.render(template, {yield: data}, partials);
+					callback(err, fulldata);
+				});
+
+			} else {
+				callback(err, data);
+			}
+		});
 	};
 	rendererWrapper.cache = cache;
 	return rendererWrapper;

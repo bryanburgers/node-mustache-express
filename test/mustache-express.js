@@ -270,5 +270,41 @@ describe('mustacheExpress', function() {
 			});
 		});
 	});
+
+	it('should render the view into layout', function(done) {
+		var renderer = mustacheExpress('test/test10', '.mustache');
+		renderer('test/test10/index.mustache',
+		{
+			settings: {
+				'view engine': 'mustache',
+				'layout': 'layout'
+			}
+		},
+		function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+			result.should.eql('Layout: Index view');
+
+			done();
+		});
+	});
+
+	it('should render the view into layout with partials', function(done) {
+		var renderer = mustacheExpress('test/test11', '.mustache');
+		renderer('test/test11/index.mustache',
+		{
+			settings: {
+				'view engine': 'mustache',
+				'layout': 'layout'
+			}
+		},
+		function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+			result.should.eql('Layout: Index view');
+
+			done();
+		});
+	});
 });
 

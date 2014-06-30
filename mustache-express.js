@@ -142,6 +142,7 @@ function create(directory, extension) {
 		var viewDirectory = directory || options.settings.views;
 		var viewExtension = extension || '.' + options.settings['view engine'];
 		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, function(err, data) {
+			if(err) { return callback(err, data); }
 			
 			// If layout is defined, load it
 			if(options && options.settings && options.settings.layout) {

@@ -6,13 +6,17 @@
     "email": "bryan@burgers.io",
     "url": "http://www.burgers.io"
   },
-  "version": "1.2.1",
+  "version": "1.2.15",
   "repository": {
     "type": "git",
     "url": "http://github.com/bryanburgers/node-mustache-express.git"
   },
   "main": "mustache-express.js",
   "contributors": [
+    {
+      "name:": "Leon van Kammen"
+      "email": "info@leon.vankammen.eu"
+    },
     {
       "name": "Andrea Mirone",
       "email": "andreamirone@gmail.com"

@@ -34,6 +34,7 @@
       "email": "mikko.tikkanen@gmail.com>"
     }
   ],
+  "license": "MIT",
   "dependencies": {
     "async": "~0.2.10",
     "lru-cache": "~2.5.0",

@@ -25,8 +25,14 @@ describe('findPartials', function() {
 		sort(results).should.eql(["p1"]);
 	});
 
+	it('should find partials inside a negative conditional', function() {
+		var results = findPartials("{{^test}}{{> p1}}{{/test}}");
+		sort(results).should.eql(["p1"]);
+	});
+
 	it('should only return a partial once', function() {
 		var results = findPartials("{{> p1}} {{> p1}}");
 		sort(results).should.eql(["p1"]);
 	});
+
 });

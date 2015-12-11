@@ -13,7 +13,7 @@ function iteratePartials(parsed) {
 	});
 
 	parsed.filter(function (i) {
-		return i[0] === "#";
+		return i[0] === "#" || i[0] === '^';
 	}).map(function(i) {
 		iteratePartials(i[4]).map(function(i) {
 			partialSet[i] = true;

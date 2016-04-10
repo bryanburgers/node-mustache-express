@@ -6,7 +6,7 @@
     "email": "bryan@burgers.io",
     "url": "http://www.burgers.io"
   },
-  "version": "1.2.2",
+  "version": "1.2.3",
   "repository": {
     "type": "git",
     "url": "http://github.com/bryanburgers/node-mustache-express.git"
@@ -38,7 +38,7 @@
   "dependencies": {
     "async": "~0.2.10",
     "lru-cache": "~2.5.0",
-    "mustache": "~0.8.1"
+    "mustache": "~2.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4",

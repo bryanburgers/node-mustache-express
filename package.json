@@ -14,7 +14,7 @@
   "main": "mustache-express.js",
   "contributors": [
     {
-      "name:": "Leon van Kammen",
+      "name": "Leon van Kammen",
       "email": "info@leon.vankammen.eu"
     },
     {
@@ -31,7 +31,19 @@
     },
     {
       "name": "Mikko Tikkanen",
-      "email": "mikko.tikkanen@gmail.com>"
+      "email": "mikko.tikkanen@gmail.com"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "Florencia Herra Vega",
+      "email": "florencia.hv@peerio.com",
+      "web": "https://www.peerio.com"
+    },
+    {
+      "name": "Samuel Martin Moro",
+      "email": "samuel@peerio.com",
+      "web": "https://www.peerio.com"
     }
   ],
   "license": "MIT",

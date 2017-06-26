@@ -7,7 +7,7 @@ var lruCache = require('lru-cache');
 var mustache = require('mustache');
 var path = require('path');
 
-// Make sure Object.assign exists
+// Make sure Object.assign exists. If not, default to Node's internal extend.
 var extend = Object.assign;
 if (!extend) {
 	extend = require("util")._extend;
@@ -166,7 +166,7 @@ function create(directory, extension) {
 					}
 
 					// Render the view into layout and run the callback
-					var fulldata = mustache.render(template, Object.assign({yield: data}, options), partials);
+					var fulldata = mustache.render(template, extend({yield: data}, options), partials);
 					callback(err, fulldata);
 				});
 

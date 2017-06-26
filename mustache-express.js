@@ -160,7 +160,7 @@ function create(directory, extension) {
 					}
 
 					// Render the view into layout and run the callback
-					var fulldata = mustache.render(template, {yield: data}, partials);
+					var fulldata = mustache.render(template, Object.assign({yield: data}, options), partials);
 					callback(err, fulldata);
 				});
 

@@ -7,6 +7,12 @@ var lruCache = require('lru-cache');
 var mustache = require('mustache');
 var path = require('path');
 
+// Make sure Object.assign exists
+var extend = Object.assign;
+if (!extend) {
+	extend = require("util")._extend;
+}
+
 // Load a single file, and return the data.
 function loadFile(fullFilePath, callback) {
 	fs.readFile(fullFilePath, "utf-8", function(err, data) {

@@ -1,4 +1,4 @@
-<img src="./img1/logo.svg" />
+<img src="./img2/logo.svg" />
 
 
 [![Build Status](https://travis-ci.org/bryanburgers/node-mustache-express.png)](https://travis-ci.org/bryanburgers/node-mustache-express)

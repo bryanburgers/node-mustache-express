@@ -6,7 +6,7 @@
     "email": "bryan@burgers.io",
     "url": "http://www.burgers.io"
   },
-  "version": "1.2.5",
+  "version": "1.2.6",
   "repository": {
     "type": "git",
     "url": "http://github.com/bryanburgers/node-mustache-express.git"

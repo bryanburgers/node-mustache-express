@@ -36,7 +36,13 @@ function handleFile(name, file, options, cache, callback) {
 				return callback(err);
 			}
 
-			var partials = findPartials(fileData);
+			var partials;
+			try {
+				partials = findPartials(fileData);
+			} catch (err) {
+				return callback(err);
+			}
+
 			var data = {
 				name: name,
 				data: fileData,

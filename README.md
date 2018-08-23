@@ -1,4 +1,4 @@
-# The Mustache Express
+<img src="./img/logo.svg" />
 
 [![Build Status](https://travis-ci.org/bryanburgers/node-mustache-express.png)](https://travis-ci.org/bryanburgers/node-mustache-express)
 

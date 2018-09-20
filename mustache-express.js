@@ -92,7 +92,12 @@ function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension,
 	}
 
 	async.map(unparsedPartials, function(partial, next) {
-		var fullFilePath = path.resolve(partialsDirectory, partial + partialsExtension);
+		var fullFilePath;
+		if('function' === typeof partialsDirectory){
+			fullFilePath = partialsDirectory(partial,partialsExtension);
+		} else {
+			fullFilePath = path.resolve(partialsDirectory, partial + partialsExtension);
+		}
 		return handleFile(partial, fullFilePath, options, cache, next);
 	}, function(err, data) {
 		if (err) {

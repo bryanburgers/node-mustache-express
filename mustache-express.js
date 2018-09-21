@@ -160,6 +160,9 @@ function create(directory, extension) {
 	});
 	var rendererWrapper = function(templatePath, options, callback) {
 		var viewDirectory = directory || options.settings.views;
+		if(options.settings && 'function' === typeof options.settings.viewHelper){
+			viewDirectory = options.settings.viewHelper;
+		}
 		var viewExtension = extension || '.' + options.settings['view engine'];
 		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, function(err, data) {
 			if (err) {

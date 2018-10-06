@@ -92,7 +92,12 @@ function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension,
 	}
 
 	async.map(unparsedPartials, function(partial, next) {
-		var fullFilePath = path.resolve(partialsDirectory, partial + partialsExtension);
+		var fullFilePath;
+		if('function' === typeof partialsDirectory){
+			fullFilePath = partialsDirectory(partial,partialsExtension);
+		} else {
+			fullFilePath = path.resolve(partialsDirectory, partial + partialsExtension);
+		}
 		return handleFile(partial, fullFilePath, options, cache, next);
 	}, function(err, data) {
 		if (err) {
@@ -155,6 +160,9 @@ function create(directory, extension) {
 	});
 	var rendererWrapper = function(templatePath, options, callback) {
 		var viewDirectory = directory || options.settings.views;
+		if(options.settings && 'function' === typeof options.settings.viewHelper){
+			viewDirectory = options.settings.viewHelper;
+		}
 		var viewExtension = extension || '.' + options.settings['view engine'];
 		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, function(err, data) {
 			if (err) {

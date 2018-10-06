@@ -6,13 +6,15 @@ Mustache Express lets you use Mustache and Express (at least version 3) together
 
 ## Usage
 
-    var mustacheExpress = require('mustache-express');
+```js
+var mustacheExpress = require('mustache-express');
 
-    // Register '.mustache' extension with The Mustache Express
-    app.engine('mustache', mustacheExpress());
+// Register '.mustache' extension with The Mustache Express
+app.engine('mustache', mustacheExpress());
 
-    app.set('view engine', 'mustache');
-    app.set('views', __dirname + '/views');
+app.set('view engine', 'mustache');
+app.set('views', __dirname + '/views');
+```
 
 ## Parameters
 
@@ -42,6 +44,7 @@ app.engine('mst', mustache(VIEWS_PATH + '/partials', '.mst'));
 ## Properties
 
 The return function has a `cache` parameter that is an [LRU Cache](https://github.com/isaacs/node-lru-cache).
-
-    var engine = mustacheExpress();
-    var cache = engine.cache; // Caches the full file name with some internal data.
+```js
+var engine = mustacheExpress();
+var cache = engine.cache; // Caches the full file name with some internal data.
+```

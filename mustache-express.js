@@ -25,7 +25,7 @@ function loadFile(fullFilePath, callback) {
 }
 
 // Load a file, find it's partials, and return the relevant data.
-function handleFile(name, file, options, cache, callback) {
+function handleFile(name, file, options, cache, tags, callback) {
 	var cachedData;
 	if(!options || !options.settings || options.settings['view cache'] !== false) {
 		cachedData = cache && cache.get(file);
@@ -38,7 +38,7 @@ function handleFile(name, file, options, cache, callback) {
 
 			var partials;
 			try {
-				partials = findPartials(fileData);
+				partials = findPartials(fileData, tags);
 			} catch (err) {
 				return callback(err);
 			}
@@ -79,7 +79,7 @@ function findUnloadedPartials(partialNames, loadedPartials) {
 }
 
 // Load all of the partials recursively
-function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension, options, cache, partials, callback) {
+function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension, options, cache, partials, tags, callback) {
 	if (!partials) {
 		partials = {};
 	}
@@ -98,7 +98,7 @@ function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension,
 		} else {
 			fullFilePath = path.resolve(partialsDirectory, partial + partialsExtension);
 		}
-		return handleFile(partial, fullFilePath, options, cache, next);
+		return handleFile(partial, fullFilePath, options, cache, tags, next);
 	}, function(err, data) {
 		if (err) {
 			return callback(err);
@@ -116,18 +116,18 @@ function loadAllPartials(unparsedPartials, partialsDirectory, partialsExtension,
 		var partialsToLoad = findUnloadedPartials(consolidatedPartials, partials);
 
 		// Recursive call.
-		return loadAllPartials(partialsToLoad, partialsDirectory, partialsExtension, options, cache, partials, callback);
+		return loadAllPartials(partialsToLoad, partialsDirectory, partialsExtension, options, cache, partials, tags, callback);
 	});
 }
 
 // Load the root template, and all of the partials that go with it
-function loadTemplateAndPartials(templateFile, partialsDirectory, partialsExtension, options, cache, callback) {
-	handleFile(null, templateFile, options, cache, function(err, partialData) {
+function loadTemplateAndPartials(templateFile, partialsDirectory, partialsExtension, options, cache, tags, callback) {
+	handleFile(null, templateFile, options, cache, tags, function(err, partialData) {
 		if (err) {
 			return callback(err);
 		}
 
-		return loadAllPartials(partialData.partials, partialsDirectory, partialsExtension, options, cache, null, function(err, partials) {
+		return loadAllPartials(partialData.partials, partialsDirectory, partialsExtension, options, cache, null, tags, function(err, partials) {
 			if (err) {
 				return callback(err);
 			}
@@ -137,34 +137,42 @@ function loadTemplateAndPartials(templateFile, partialsDirectory, partialsExtens
 	});
 }
 
-function render(templatePath, viewDirectory, extension, options, cache, callback) {
-
-	loadTemplateAndPartials(templatePath, viewDirectory, extension, options, cache, function(err, template, partials) {
+function render(templatePath, viewDirectory, extension, options, cache, tags, callback) {
+	if (callback === undefined && typeof tags === 'function') {
+		callback = tags;
+		tags = mustache.tags;
+	} else if (tags === undefined) {
+		tags = mustache.tags;
+	}
+	loadTemplateAndPartials(templatePath, viewDirectory, extension, options, cache, tags, function(err, template, partials) {
 		if (err) {
 			return callback(err);
 		}
 
-		var data = mustache.render(template, options, partials);
+		var data = mustache.render(template, options, partials, tags);
 		return callback(null, data);
 	});
 }
 
 // Create a renderer.
 // This is the entry point of the module.
-function create(directory, extension) {
-	var cache = lruCache({
+function create(directory, extension, tags) {
+	var cache = new lruCache({
 		max: 50000,
 		length: function(item) {
 			return item.data.length;
 		}
 	});
+	if (tags === undefined) {
+		tags = [ '{{', '}}' ];
+	}
 	var rendererWrapper = function(templatePath, options, callback) {
 		var viewDirectory = directory || options.settings.views;
 		if(options.settings && 'function' === typeof options.settings.viewHelper){
 			viewDirectory = options.settings.viewHelper;
 		}
 		var viewExtension = extension || '.' + options.settings['view engine'];
-		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, function(err, data) {
+		render(templatePath, viewDirectory, viewExtension, options, rendererWrapper.cache, tags, function(err, data) {
 			if (err) {
 				return callback(err);
 			}
@@ -174,13 +182,13 @@ function create(directory, extension) {
 
 				// Load the layout & partials
 				var layoutPath = path.resolve(viewDirectory, options.settings.layout + viewExtension);
-				loadTemplateAndPartials(layoutPath, viewDirectory, viewExtension, options, rendererWrapper.cache, function(err, template, partials) {
+				loadTemplateAndPartials(layoutPath, viewDirectory, viewExtension, options, rendererWrapper.cache, tags, function(err, template, partials) {
 					if (err) {
 						return callback(err);
 					}
 
 					// Render the view into layout and run the callback
-					var fulldata = mustache.render(template, extend({yield: data}, options), partials);
+					var fulldata = mustache.render(template, extend({yield: data}, options), partials, tags);
 					callback(err, fulldata);
 				});
 

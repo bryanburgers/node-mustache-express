@@ -24,9 +24,12 @@ function iteratePartials(parsed) {
 }
 
 
-function findPartials(template) {
+function findPartials(template, tags) {
+	if (tags === undefined) {
+		tags = [ '{{', '}}' ];
+	}
 	var partialSet = {};
-	var parsed = mustache.parse(template);
+	var parsed = mustache.parse(template, tags);
 	return iteratePartials(parsed);
 }
 

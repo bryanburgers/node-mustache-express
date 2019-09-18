@@ -18,7 +18,7 @@ app.set('views', __dirname + '/views');
 
 ## Parameters
 
-The mustacheExpress method can take two parameters: the directory of the partials and the extension of the partials. When a partial is requested by a template, the file will be loaded from `path.resolve(directory, partialName + extension)`. By default, these values are determined by Express.
+The mustacheExpress method can take three parameters: the directory of the partials, the extension of the partials, and an optional array of tags. When a partial is requested by a template, the file will be loaded from `path.resolve(directory, partialName + extension)`. By default, these values are determined by Express.
 
 **Example:** If you want to create a folder for your partials in the view directory like so:
 

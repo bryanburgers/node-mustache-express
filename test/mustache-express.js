@@ -306,5 +306,20 @@ describe('mustacheExpress', function() {
 			done();
 		});
 	});
+
+	it('should render a template that includes two partials with custom tags', function(done) {
+		var renderer = mustacheExpress('test/test12', '.mustache', [ '[[', ']]' ]);
+		renderer('test/test12/index.mustache',
+		{
+			salutation: "Hey",
+			name: "World"
+		}, function(err, result) {
+			should.not.exist(err);
+			should.exist(result);
+			result.should.eql("Hey, World, Hello");
+
+			done();
+		});
+	});
 });
 

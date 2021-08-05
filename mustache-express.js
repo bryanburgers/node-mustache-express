@@ -33,14 +33,14 @@ function handleFile(name, file, options, cache, tags, callback) {
 	if (!cachedData) {
 		loadFile(file, function(err, fileData) {
 			if (err) {
-				return callback(err);
+				return callback("An error occurred while reading " + file + ":\n" + err);
 			}
 
 			var partials;
 			try {
 				partials = findPartials(fileData, tags);
 			} catch (err) {
-				return callback(err);
+				return callback("An error occurred while rendering " + file + ":\n" + err);
 			}
 
 			var data = {
